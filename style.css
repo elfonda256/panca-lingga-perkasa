@@ -672,51 +672,175 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   Partners & Clients Banner
+   Partners & Client Logos Showcase
    ========================================================================== */
 .partners-section {
-  padding: 2.2rem 0;
-  background-color: var(--bg-body);
+  padding: 3.5rem 0;
+  background-color: var(--bg-light);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 }
 
-.partners-label {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 1.2rem;
-  text-align: center;
+.partners-header {
+  max-width: 760px;
+  margin: 0 auto 2.5rem auto;
 }
 
-.partners-grid {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-}
-
-.partner-badge {
+.partners-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  background-color: var(--bg-light);
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.9rem;
+  gap: 0.4rem;
+  background-color: rgba(217, 119, 6, 0.1);
+  color: var(--color-amber-hover);
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--color-primary);
-  border: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.75rem;
 }
 
-.partner-badge.highlight {
-  background-color: #ecfdf5;
-  border-color: #a7f3d0;
-  color: var(--color-emerald);
+.partners-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
 }
+
+.partners-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.client-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.client-logo-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.client-logo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-amber);
+}
+
+.client-logo-img-box {
+  height: 75px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 0.4rem;
+}
+
+.client-logo-img {
+  max-height: 68px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+  transition: var(--transition);
+}
+
+.client-logo-card:hover .client-logo-img {
+  transform: scale(1.06);
+}
+
+.client-logo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 0.75rem;
+}
+
+.client-logo-info strong {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.3;
+}
+
+.client-logo-info span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Dark Mode Overrides for Client Logos */
+[data-theme="dark"] .partners-section {
+  background-color: #070d19 !important;
+  border-color: #1a2c47 !important;
+}
+
+[data-theme="dark"] .partners-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .partners-desc {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .client-logo-card {
+  background-color: #13223b !important;
+  border-color: #223758 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .client-logo-card:hover {
+  border-color: #60a5fa !important;
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.25) !important;
+}
+
+[data-theme="dark"] .client-logo-img-box {
+  background-color: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+[data-theme="dark"] .client-logo-info {
+  border-top-color: #223758 !important;
+}
+
+[data-theme="dark"] .client-logo-info strong {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .client-logo-info span {
+  color: #94a3b8 !important;
+}
+
+@media (max-width: 992px) {
+  .client-logo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .client-logo-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
 
 /* ==========================================================================
    About Us (Storytelling & Humanist Approach)

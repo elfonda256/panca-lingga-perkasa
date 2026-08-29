@@ -1135,21 +1135,29 @@ button, input, select, textarea {
 }
 
 .service-card.featured {
-  border: 2px solid var(--color-amber);
-  background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%);
+  border: 2px solid var(--color-amber) !important;
+  background: linear-gradient(180deg, #fffcf6 0%, #ffffff 100%);
+  position: relative;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.12);
 }
 
 .popular-badge {
   position: absolute;
-  top: -12px;
-  right: 20px;
-  background-color: var(--color-amber);
+  top: 14px;
+  right: 16px;
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
   color: #ffffff;
   font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.25rem 0.75rem;
+  font-weight: 800;
+  padding: 0.35rem 0.85rem;
   border-radius: var(--radius-full);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  z-index: 4;
 }
 
 .service-icon-box {
@@ -2534,6 +2542,19 @@ button, input, select, textarea {
   background-color: #13223b !important;
   border-color: #223758 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .service-card.featured {
+  background: linear-gradient(180deg, #182b49 0%, #101d32 100%) !important;
+  border: 2px solid #f59e0b !important;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.25) !important;
+}
+
+[data-theme="dark"] .popular-badge {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  color: #0b1320 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.5) !important;
 }
 
 [data-theme="dark"] .product-img-wrap {

@@ -247,3 +247,164 @@ function initTheme() {
 // Initialize theme on load
 initTheme();
 
+/**
+ * 7. Scroll Reveal & Staggered Animations
+ */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll(
+    '.section-head, .story-card, .human-highlight-card, .vision-mission-box, ' +
+    '.service-card, .product-card, .portfolio-card, .why-card, .pillar-card, ' +
+    '.client-logo-card, .legality-card, .contact-form-card, .quick-callout-box, .loc-card'
+  );
+
+  revealElements.forEach(el => {
+    el.classList.add('reveal-item');
+  });
+
+  // Apply staggered delay for grid items
+  const grids = document.querySelectorAll('.service-grid, .product-grid, .portfolio-grid, .why-grid, .client-logo-grid, .legality-grid');
+  grids.forEach(grid => {
+    const items = grid.children;
+    Array.from(items).forEach((item, index) => {
+      item.style.transitionDelay = `${(index % 6) * 100}ms`;
+    });
+  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        // Once animated, we don't need to observe it again
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/**
+ * 8. Animated Number Counter on Scroll
+ */
+function initNumberCounters() {
+  const statNumbers = document.querySelectorAll('.stat-number');
+  
+  const counterObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const text = el.textContent.trim();
+        const match = text.match(/^(\d+)(.*)$/);
+        
+        if (match) {
+          const targetNum = parseInt(match[1], 10);
+          const suffix = match[2] || '';
+          let currentNum = 0;
+          const duration = 1400;
+          const startTime = performance.now();
+
+          function updateCounter(now) {
+            const progress = Math.min((now - startTime) / duration, 1);
+            // Ease out cubic
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            currentNum = Math.floor(easeProgress * targetNum);
+            el.textContent = currentNum + suffix;
+
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              el.textContent = targetNum + suffix;
+            }
+          }
+
+          requestAnimationFrame(updateCounter);
+        }
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(num => counterObserver.observe(num));
+}
+
+/**
+ * 9. Back To Top Floating Button with Scroll Progress
+ */
+function initBackToTop() {
+  let backBtn = document.getElementById('backToTop');
+  if (!backBtn) {
+    backBtn = document.createElement('button');
+    backBtn.id = 'backToTop';
+    backBtn.className = 'back-to-top';
+    backBtn.setAttribute('aria-label', 'Kembali ke atas');
+    backBtn.innerHTML = `
+      <svg class="progress-ring" width="48" height="48">
+        <circle class="progress-ring-circle" stroke="var(--color-amber)" stroke-width="3" fill="transparent" r="21" cx="24" cy="24"/>
+      </svg>
+      <i data-lucide="arrow-up" class="icon-sm"></i>
+    `;
+    document.body.appendChild(backBtn);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  const circle = backBtn.querySelector('.progress-ring-circle');
+  const radius = circle.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  circle.style.strokeDasharray = `${circumference} ${circumference}`;
+  circle.style.strokeDashoffset = `${circumference}`;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollFraction = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+    const offset = circumference - scrollFraction * circumference;
+    circle.style.strokeDashoffset = offset;
+
+    if (scrollTop > 350) {
+      backBtn.classList.add('visible');
+    } else {
+      backBtn.classList.remove('visible');
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+/**
+ * 10. Subtle 3D Tilt Parallax on Hero Visual Card
+ */
+function initHeroTilt() {
+  const heroCard = document.querySelector('.main-card');
+  if (!heroCard) return;
+
+  heroCard.addEventListener('mousemove', (e) => {
+    const rect = heroCard.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const tiltX = (y / rect.height) * -8;
+    const tiltY = (x / rect.width) * 8;
+
+    heroCard.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+
+  heroCard.addEventListener('mouseleave', () => {
+    heroCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+  });
+}
+
+// Run all animations once DOM is fully ready
+document.addEventListener('DOMContentLoaded', () => {
+  initScrollReveal();
+  initNumberCounters();
+  initBackToTop();
+  initHeroTilt();
+});
+

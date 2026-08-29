@@ -715,14 +715,38 @@ button, input, select, textarea {
   line-height: 1.6;
 }
 
-.client-logo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-  gap: 1.5rem;
-  align-items: stretch;
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 1.2rem 0;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-.client-logo-card {
+.marquee-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+}
+
+.marquee-track .client-logo-card {
+  width: 210px;
+  flex-shrink: 0;
   background-color: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -735,8 +759,8 @@ button, input, select, textarea {
   transition: var(--transition);
 }
 
-.client-logo-card:hover {
-  transform: translateY(-5px);
+.marquee-track .client-logo-card:hover {
+  transform: translateY(-6px) scale(1.02);
   box-shadow: var(--shadow-md);
   border-color: var(--color-amber);
 }
@@ -760,7 +784,7 @@ button, input, select, textarea {
 }
 
 .client-logo-card:hover .client-logo-img {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .client-logo-info {
@@ -785,6 +809,59 @@ button, input, select, textarea {
   font-weight: 500;
 }
 
+/* Additional Delightful Micro-Animations */
+.badge-dot {
+  position: relative;
+}
+
+.badge-dot::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--color-emerald);
+  opacity: 0.6;
+  animation: pulseBeacon 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes pulseBeacon {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.service-card:hover .service-icon-box {
+  transform: scale(1.12) rotate(6deg);
+  background-color: var(--color-amber) !important;
+  color: #ffffff !important;
+}
+
+.service-icon-box {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, color 0.3s ease;
+}
+
+.stag, .w-item {
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.stag:hover, .w-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-amber) !important;
+}
+
+.floating-wa-btn {
+  animation: waWiggle 5s ease-in-out infinite;
+}
+
+@keyframes waWiggle {
+  0%, 85%, 100% { transform: rotate(0deg) scale(1); }
+  88% { transform: rotate(-12deg) scale(1.08); }
+  92% { transform: rotate(12deg) scale(1.08); }
+  96% { transform: rotate(-6deg) scale(1.04); }
+}
+
 /* Dark Mode Overrides for Client Logos */
 [data-theme="dark"] .partners-section {
   background-color: #070d19 !important;
@@ -799,13 +876,13 @@ button, input, select, textarea {
   color: #cbd5e1 !important;
 }
 
-[data-theme="dark"] .client-logo-card {
+[data-theme="dark"] .marquee-track .client-logo-card {
   background-color: #13223b !important;
   border-color: #223758 !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
-[data-theme="dark"] .client-logo-card:hover {
+[data-theme="dark"] .marquee-track .client-logo-card:hover {
   border-color: #60a5fa !important;
   box-shadow: 0 6px 20px rgba(96, 165, 250, 0.25) !important;
 }
@@ -828,18 +905,6 @@ button, input, select, textarea {
   color: #94a3b8 !important;
 }
 
-@media (max-width: 992px) {
-  .client-logo-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .client-logo-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-}
 
 
 /* ==========================================================================

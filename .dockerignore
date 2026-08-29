@@ -1,0 +1,5 @@
+*.pdf
+*.ps1
+*.zip
+.git
+.agents

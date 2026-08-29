@@ -439,18 +439,21 @@ button, input, select, textarea {
   align-items: center;
   justify-content: space-between;
   height: 76px;
+  gap: 1.5rem;
 }
 
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  flex-shrink: 0;
+  margin-right: 1.5rem;
+  transition: var(--transition);
 }
 
 .site-logo-img {
-  height: 52px;
+  height: 48px;
   width: auto;
-  max-width: 260px;
+  max-width: 220px;
   object-fit: contain;
   display: block;
   transition: var(--transition);
@@ -463,15 +466,17 @@ button, input, select, textarea {
 .nav-list {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.6rem;
+  flex-wrap: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-main);
   position: relative;
   padding: 0.3rem 0;
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -497,6 +502,7 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
 }
 
 .mobile-toggle {
@@ -2466,9 +2472,10 @@ button, input, select, textarea {
 }
 
 [data-theme="dark"] .brand-logo {
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 4px 10px;
+  background-color: rgba(255, 255, 255, 0.96);
+  padding: 5px 12px;
   border-radius: 8px;
+  margin-right: 1.8rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
@@ -2873,10 +2880,10 @@ button, input, select, textarea {
 /* 5. Back To Top Floating Rocket Button */
 .back-to-top {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 48px;
-  height: 48px;
+  bottom: 100px;
+  right: 34px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background-color: #ffffff;
   color: var(--color-primary);
@@ -2886,7 +2893,7 @@ button, input, select, textarea {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 999;
+  z-index: 998;
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px) scale(0.85);

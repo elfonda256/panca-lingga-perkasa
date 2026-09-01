@@ -230,9 +230,12 @@ function renderProductsTable(products) {
   }
 
   tbody.innerHTML = products.map(p => {
-    const brandBadge = p.brand === 'greenprima' 
-      ? '<span class="badge badge-brand-gp">🇬🇧 GreenPrima</span>' 
-      : '<span class="badge badge-brand-eco">🇨🇳 Shanghai Ecopro</span>';
+    let brandBadge = '<span class="badge badge-brand-gp">🇬🇧 GreenPrima</span>';
+    if (p.brand === 'ecopro') {
+      brandBadge = '<span class="badge badge-brand-eco">🇨🇳 Shanghai Ecopro</span>';
+    } else if (p.brand === 'molinar') {
+      brandBadge = '<span class="badge" style="background:linear-gradient(135deg, #0284c7, #0f766e); color:#fff;">🌐 Molinar IoT</span>';
+    }
     
     const imgSrc = p.image.startsWith('http') || p.image.startsWith('/') ? p.image : `../${p.image}`;
     const method = p.specs && p.specs.method ? p.specs.method : '-';
@@ -334,9 +337,16 @@ async function handleProductSubmit(event) {
   const id = document.getElementById('prodId').value;
   const brand = document.getElementById('prodBrand').value;
 
+  let brandLabel = 'GreenPrima Instruments (UK)';
+  if (brand === 'ecopro') {
+    brandLabel = 'Shanghai Ecopro Environmental';
+  } else if (brand === 'molinar') {
+    brandLabel = 'Molinar Cloud & IoT Multi-Management';
+  }
+
   const payload = {
     brand: brand,
-    brandLabel: brand === 'greenprima' ? 'GreenPrima Instruments (UK)' : 'Shanghai Ecopro Environmental',
+    brandLabel: brandLabel,
     category: document.getElementById('prodCategory').value,
     name: document.getElementById('prodName').value,
     badge: document.getElementById('prodBadge').value,

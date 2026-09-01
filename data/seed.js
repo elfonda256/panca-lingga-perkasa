@@ -289,6 +289,69 @@ async function seed() {
         },
         fullModalDesc: 'Unit pembangkit gas ozon berkapasitas besar untuk desinfeksi air murni, pengolahan air limbah B3, penghilangan warna zat pewarna tekstil, dan oksidasi polutan organik membandel.',
         order: 9
+      },
+      {
+        id: 'prod-molinar-1',
+        brand: 'molinar',
+        brandLabel: 'Molinar Cloud & IoT Multi-Management',
+        category: 'mol-hardware mol-edge',
+        categoryLabel: 'Data Logger & Edge (Hardware)',
+        name: 'Molinar Industrial Smart Data Logger (MLR-S3 / LTE7600)',
+        image: 'images/prod-molinar-logger.png',
+        badge: '🌐 Molinar • Smart Data Logger',
+        description: 'Data logger industri multi-konektivitas (4G LTE, Ethernet, Wi-Fi) dengan auto-failover, pembacaan sensor Modbus RS485 & Analog, otomasi lokal IF-THEN (Edge), dan MicroSD Store & Forward.',
+        specs: {
+          method: 'Multi-Channel Edge Processing & Auto-Failover Telemetry',
+          range: 'RS485 Modbus RTU (KF301), Analog 4-20mA / 0-10V, Digital IO',
+          accuracy: 'Sampling Real-time (Hingga 100ms), RTC Sync ±1 ppm',
+          output: '4G LTE (SIM7600CE), Ethernet (W5500), Wi-Fi STA, MicroSD 128GB',
+          bullet1: 'Auto-Failover 3 Jaringan (4G / LAN / Wi-Fi)',
+          bullet2: 'Otomasi Lokal IF-THEN & Store-Forward'
+        },
+        fullModalDesc: 'Data logger cerdas generasi terbaru yang dirancang untuk keandalan ekstrim pada aplikasi industri, WTP/WWTP, dan pertanian cerdas. Menghadirkan web configuration lokal, live sensor ping, kalibrasi linear offset/gain, update firmware OTA, dan penyimpanan offline MicroSD saat koneksi terputus.',
+        order: 10
+      },
+      {
+        id: 'prod-molinar-2',
+        brand: 'molinar',
+        brandLabel: 'Molinar Cloud & IoT Multi-Management',
+        category: 'mol-cloud mol-ai',
+        categoryLabel: 'Cloud Platform & AI Analytics',
+        name: 'Molinar Cloud Enterprise IoT & AI Analytics Platform',
+        image: 'images/prod-molinar-cloud.png',
+        badge: '☁️ Molinar • Cloud & AI',
+        description: 'Platform cloud terpusat untuk monitoring geospasial real-time, sensor registry lintas lokasi, telekontrol jarak jauh aktuator/chiller/heater, dan otomasi skenario cloud lintas perangkat.',
+        specs: {
+          method: 'Cloud Telemetry & AI/ML Predictive Analytics',
+          range: 'Unlimited Multi-Device & Multi-Client Hierarchy',
+          accuracy: 'Live Stream Telemetry (WebSocket/MQTT), SLA Tracking 99.9%',
+          output: 'MQTT Broker, Webhook, REST API, OPC-UA, CSV Export',
+          bullet1: 'Telekontrol Jarak Jauh & Peta Geospasial',
+          bullet2: 'Skenario Otomasi Lintas Perangkat (Cloud)'
+        },
+        fullModalDesc: 'Pusat kendali dan analitik data berbasis cloud modern yang memvisualisasikan data sensor dalam peta persebaran interaktif dan grafik real-time. Dilengkapi fitur telekontrol aktuator instan, manajemen SLA uptime, dan logika otomatisasi server-side antar-perangkat.',
+        order: 11
+      },
+      {
+        id: 'prod-molinar-3',
+        brand: 'molinar',
+        brandLabel: 'Molinar Cloud & IoT Multi-Management',
+        category: 'mol-solution mol-edge',
+        categoryLabel: 'Smart Agriculture & Vertical Farming Kit',
+        name: 'Molinar Smart Vertical Agriculture & Environment Monitoring Kit',
+        image: 'images/prod-molinar-farm.png',
+        badge: '🌱 Molinar • Smart Agriculture',
+        description: 'Paket solusi IoT terintegrasi untuk rumah kaca, menara pertanian vertikal, dan pemantauan iklim mikro dengan kontrol irigasi/misting otomatis dan forecasting analitik AI.',
+        specs: {
+          method: 'Precision Micro-Climate Monitoring & Closed-Loop Control',
+          range: 'Suhu Udara (-40~85°C), RH (0~100%), EC, pH, NPK, Soil Moisture',
+          accuracy: 'Suhu ±0.3°C, Kelembaban ±2% RH',
+          output: 'Modbus RS485, Telekontrol Relay Pompa/Misting/Lighting',
+          bullet1: 'Kontrol Pengkabutan & Nutrisi Otomatis',
+          bullet2: 'Prediksi AI Pertumbuhan & Alarm Anomali'
+        },
+        fullModalDesc: 'Solusi otomasi pertanian presisi yang menghubungkan sensor kelembapan tanah, suhu, dan intensitas cahaya dengan aktuator pengkabutan, kipas ventilasi, dan pompa nutrisi secara otonom untuk memaksimalkan hasil panen.',
+        order: 12
       }
     ],
     projects: [

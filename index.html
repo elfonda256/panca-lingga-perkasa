@@ -439,23 +439,23 @@
 
         <!-- Service 2: Instrumentation & Control -->
         <div class="service-card featured">
-          <div class="popular-badge"><i data-lucide="star" class="icon-xs"></i> Solusi Favorit</div>
+          <div class="popular-badge"><i data-lucide="star" class="icon-xs"></i> Solusi Favorit & Inovatif</div>
           <div class="service-icon-box">
             <i data-lucide="cpu" class="service-icon"></i>
           </div>
-          <h3 class="service-title">Instrumentasi & Smart Control System</h3>
+          <h3 class="service-title">Instrumentasi & Smart IoT Control System</h3>
           <p class="service-desc">
-            Integrasi sensor proses presisi, PLC/SCADA, transmitter debit & level air, serta dashboard pemantauan digital real-time berbasis IoT (LoRaWAN & telemetry).
+            Integrasi sensor proses presisi, PLC/SCADA, Smart Data Logger (Auto-Failover 4G/LAN/Wi-Fi), serta <strong>Molinar Cloud Platform</strong> dengan analitik AI/ML & telekontrol otomatis.
           </p>
           <div class="service-preview-thumb">
-            <img src="images/proyek-soetta-analytics.png" alt="Preview Dashboard Monitoring Air Bandara Soekarno-Hatta" style="width:100%; height:110px; object-fit:cover; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:1rem;">
+            <img src="images/prod-molinar-cloud.png" alt="Preview Ekosistem Molinar Cloud IoT dan Telemetri Data Logger" style="width:100%; height:110px; object-fit:cover; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:1rem;">
           </div>
           <ul class="service-features">
-            <li><i data-lucide="check" class="icon-xs"></i> Real-time Water Monitoring Dashboard</li>
-            <li><i data-lucide="check" class="icon-xs"></i> Kalibrasi & Pemasangan Sensor Digital</li>
-            <li><i data-lucide="check" class="icon-xs"></i> Integrasi SCADA, PLC, & IoT Logger</li>
+            <li><i data-lucide="check" class="icon-xs"></i> Ekosistem Molinar Cloud & Industrial Data Logger</li>
+            <li><i data-lucide="check" class="icon-xs"></i> Auto-Failover 3 Jaringan & Edge Otomasi IF-THEN</li>
+            <li><i data-lucide="check" class="icon-xs"></i> Telekontrol Jarak Jauh Chiller/Heater/Pompa</li>
           </ul>
-          <a href="#contact" class="service-link">Rancang Sistem Monitoring <i data-lucide="arrow-up-right" class="icon-xs"></i></a>
+          <a href="#contact" class="service-link">Rancang Sistem Smart IoT <i data-lucide="arrow-up-right" class="icon-xs"></i></a>
         </div>
 
         <!-- Service 3: Civil & Fabrication -->
@@ -524,6 +524,13 @@
             <div class="brand-tab-text">
               <span class="brand-tab-title">Shanghai Ecopro Environmental</span>
               <span class="brand-tab-sub">Smart Station & IPAL Machinery</span>
+            </div>
+          </button>
+          <button class="brand-tab" data-target="molinarBrandPane">
+            <span class="brand-flag">🌐</span>
+            <div class="brand-tab-text">
+              <span class="brand-tab-title">Molinar Cloud & IoT</span>
+              <span class="brand-tab-sub">Smart Data Logger & AI Platform</span>
             </div>
           </button>
         </div>
@@ -785,16 +792,108 @@
         </div>
       </div>
 
+      <!-- Brand Content 3: Molinar Cloud & Smart IoT Platform -->
+      <div class="brand-pane" id="molinarBrandPane" style="display:none;">
+        <div class="brand-info-bar">
+          <div class="brand-info-left">
+            <span class="badge-partner" style="background: linear-gradient(135deg, #0284c7, #0f766e);">🌐 Ekosistem Smart IoT & Molinar Cloud Terintegrasi</span>
+            <p>Data logger industri cerdas (4G LTE/LAN/Wi-Fi failover), pembacaan sensor Modbus & Analog, otomasi lokal IF-THEN, telekontrol jarak jauh, dan pusat analitik cloud AI/ML terpadu.</p>
+          </div>
+          <div class="product-filters">
+            <button class="filter-btn active" data-filter="all">Semua Solusi IoT</button>
+            <button class="filter-btn" data-filter="mol-hardware">Data Logger (Hardware)</button>
+            <button class="filter-btn" data-filter="mol-cloud">Cloud Platform & AI</button>
+            <button class="filter-btn" data-filter="mol-solution">Smart Agriculture & Solution</button>
+          </div>
+        </div>
+
+        <div class="product-grid" id="molinarGrid">
+
+          <!-- Molinar 1: Industrial Smart Data Logger -->
+          <div class="product-card" data-category="mol-hardware mol-edge">
+            <div class="product-img-wrap">
+              <span class="product-category-badge" style="background:#0f766e;">🌐 Molinar • Smart Logger</span>
+              <img src="images/prod-molinar-logger.png" alt="Molinar Industrial Smart Data Logger MLR-S3 LTE7600" class="product-img">
+            </div>
+            <div class="product-body">
+              <h3 class="product-name">Molinar Industrial Smart Data Logger (MLR-S3 / LTE7600)</h3>
+              <p class="product-desc">
+                Data logger industri multi-konektivitas (4G LTE, Ethernet, Wi-Fi) dengan auto-failover, pembacaan sensor Modbus RS485 & Analog, otomasi lokal IF-THEN (Edge), dan MicroSD Store & Forward.
+              </p>
+              <div class="product-specs">
+                <span><i data-lucide="check-circle" class="icon-xs"></i> Auto-Failover 3 Jaringan (4G/LAN/Wi-Fi)</span>
+                <span><i data-lucide="check-circle" class="icon-xs"></i> Otomasi Lokal IF-THEN & Store-Forward</span>
+              </div>
+              <div class="product-footer">
+                <button class="btn btn-outline btn-block" onclick="openProductModal('Molinar Industrial Smart Data Logger (MLR-S3 / LTE7600)', 'Data logger cerdas generasi terbaru yang dirancang untuk keandalan ekstrim pada aplikasi industri, WTP/WWTP, dan pertanian cerdas. Menghadirkan web configuration lokal, live sensor ping, kalibrasi linear offset/gain, update firmware OTA, dan penyimpanan offline MicroSD saat koneksi terputus.', 'Multi-Channel Edge Processing & Auto-Failover Telemetry', 'RS485 Modbus RTU (KF301), Analog 4-20mA / 0-10V, Digital IO', 'Sampling Real-time (Hingga 100ms), RTC Sync ±1 ppm', '4G LTE (SIM7600CE), Ethernet (W5500), Wi-Fi STA, MicroSD 128GB')">
+                  <span>Lihat Detail Spesifikasi</span>
+                  <i data-lucide="external-link" class="icon-xs"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molinar 2: Molinar Cloud Enterprise Platform -->
+          <div class="product-card" data-category="mol-cloud mol-ai">
+            <div class="product-img-wrap">
+              <span class="product-category-badge" style="background:#2563eb;">☁️ Molinar • Cloud & AI</span>
+              <img src="images/prod-molinar-cloud.png" alt="Molinar Cloud Enterprise IoT & AI Analytics Platform" class="product-img">
+            </div>
+            <div class="product-body">
+              <h3 class="product-name">Molinar Cloud Enterprise IoT & AI Analytics Platform</h3>
+              <p class="product-desc">
+                Platform cloud terpusat untuk monitoring geospasial real-time, sensor registry lintas lokasi, telekontrol jarak jauh aktuator/chiller/heater, dan otomasi skenario cloud lintas perangkat.
+              </p>
+              <div class="product-specs">
+                <span><i data-lucide="check-circle" class="icon-xs"></i> Telekontrol Jarak Jauh & Peta Geospasial</span>
+                <span><i data-lucide="check-circle" class="icon-xs"></i> Skenario Otomasi Lintas Perangkat (Cloud)</span>
+              </div>
+              <div class="product-footer">
+                <button class="btn btn-outline btn-block" onclick="openProductModal('Molinar Cloud Enterprise IoT & AI Analytics Platform', 'Pusat kendali dan analitik data berbasis cloud modern yang memvisualisasikan data sensor dalam peta persebaran interaktif dan grafik real-time. Dilengkapi fitur telekontrol aktuator instan, manajemen SLA uptime, dan logika otomatisasi server-side antar-perangkat.', 'Cloud Telemetry & AI/ML Predictive Analytics', 'Unlimited Multi-Device & Multi-Client Hierarchy', 'Live Stream Telemetry (WebSocket/MQTT), SLA Tracking 99.9%', 'MQTT Broker, Webhook, REST API, OPC-UA, CSV Export')">
+                  <span>Lihat Detail Spesifikasi</span>
+                  <i data-lucide="external-link" class="icon-xs"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molinar 3: Smart Vertical Agriculture & Environment Kit -->
+          <div class="product-card" data-category="mol-solution mol-edge">
+            <div class="product-img-wrap">
+              <span class="product-category-badge" style="background:#059669;">🌱 Molinar • Smart Agriculture</span>
+              <img src="images/prod-molinar-farm.png" alt="Molinar Smart Vertical Agriculture & Environment Monitoring Kit" class="product-img">
+            </div>
+            <div class="product-body">
+              <h3 class="product-name">Molinar Smart Vertical Agriculture & Environment Kit</h3>
+              <p class="product-desc">
+                Paket solusi IoT terintegrasi untuk rumah kaca, menara pertanian vertikal, dan pemantauan iklim mikro dengan kontrol irigasi/misting otomatis dan forecasting analitik AI.
+              </p>
+              <div class="product-specs">
+                <span><i data-lucide="check-circle" class="icon-xs"></i> Kontrol Pengkabutan & Nutrisi Otomatis</span>
+                <span><i data-lucide="check-circle" class="icon-xs"></i> Prediksi AI Pertumbuhan & Alarm Anomali</span>
+              </div>
+              <div class="product-footer">
+                <button class="btn btn-outline btn-block" onclick="openProductModal('Molinar Smart Vertical Agriculture & Environment Kit', 'Solusi otomasi pertanian presisi yang menghubungkan sensor kelembapan tanah, suhu, dan intensitas cahaya dengan aktuator pengkabutan, kipas ventilasi, dan pompa nutrisi secara otonom untuk memaksimalkan hasil panen.', 'Precision Micro-Climate Monitoring & Closed-Loop Control', 'Suhu Udara (-40~85°C), RH (0~100%), EC, pH, NPK, Soil Moisture', 'Suhu ±0.3°C, Kelembaban ±2% RH', 'Modbus RS485, Telekontrol Relay Pompa/Misting/Lighting')">
+                  <span>Lihat Detail Spesifikasi</span>
+                  <i data-lucide="external-link" class="icon-xs"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- Distributor Callout Banner -->
       <div class="distributor-callout">
         <div class="distributor-callout-text">
           <i data-lucide="file-check-2" class="callout-icon"></i>
           <div>
             <h4>Membutuhkan Dokumen Sertifikasi, Brosur Resmi & Penawaran Proyek?</h4>
-            <p>PT Panca Lingga Perkasa melayani pengadaan unit resmi GreenPrima (UK) & Shanghai Ecopro, instalasi di lokasi, kalibrasi berkala, dan integrasi SCADA/IoT.</p>
+            <p>PT Panca Lingga Perkasa melayani pengadaan unit resmi GreenPrima (UK) & Shanghai Ecopro, integrasi sistem IoT Molinar Cloud, instalasi di lokasi, kalibrasi berkala, dan integrasi SCADA/IoT.</p>
           </div>
         </div>
-        <a href="https://wa.me/6281390506150?text=Halo%20Panca%20Lingga%20Perkasa,%20saya%20membutuhkan%20katalog%20dan%20penawaran%20GreenPrima%20serta%20Shanghai%20Ecopro." target="_blank" class="btn btn-primary">
+        <a href="https://wa.me/6281390506150?text=Halo%20Panca%20Lingga%20Perkasa,%20saya%20membutuhkan%20katalog%20dan%20penawaran%20GreenPrima,%20Shanghai%20Ecopro,%20serta%20Molinar%20IoT." target="_blank" class="btn btn-primary">
           <span>Minta Penawaran Resmi</span>
           <i data-lucide="send" class="icon-sm"></i>
         </a>

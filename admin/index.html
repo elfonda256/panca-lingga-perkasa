@@ -242,9 +242,10 @@
                 <input type="text" id="prodSearchInput" placeholder="Cari nama produk, spesifikasi, atau model..." oninput="filterProducts()">
               </div>
               <select id="prodBrandFilter" class="filter-select" onchange="filterProducts()">
-                <option value="all">Semua Brand (GreenPrima & Ecopro)</option>
+                <option value="all">Semua Brand (GreenPrima, Ecopro & Molinar IoT)</option>
                 <option value="greenprima">🇬🇧 GreenPrima Instruments (UK)</option>
                 <option value="ecopro">🇨🇳 Shanghai Ecopro Environmental</option>
+                <option value="molinar">🌐 Molinar Cloud & Smart IoT Platform</option>
               </select>
             </div>
             <button class="btn btn-primary" onclick="openProductModal()">
@@ -491,6 +492,7 @@
               <select id="prodBrand" class="form-select" required onchange="handleBrandChange()">
                 <option value="greenprima">🇬🇧 GreenPrima Instruments (UK)</option>
                 <option value="ecopro">🇨🇳 Shanghai Ecopro Environmental</option>
+                <option value="molinar">🌐 Molinar Cloud & Smart IoT Platform</option>
               </select>
             </div>
             <div class="form-group">

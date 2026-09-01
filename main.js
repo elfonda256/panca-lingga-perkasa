@@ -441,9 +441,11 @@ async function initLiveDynamicData() {
 function renderDynamicProducts(products) {
   const gpGrid = document.getElementById('greenprimaGrid');
   const ecoGrid = document.getElementById('ecoproGrid');
+  const molGrid = document.getElementById('molinarGrid');
 
   const gpProducts = products.filter(p => p.brand === 'greenprima');
   const ecoProducts = products.filter(p => p.brand === 'ecopro');
+  const molProducts = products.filter(p => p.brand === 'molinar');
 
   if (gpGrid && gpProducts.length > 0) {
     gpGrid.innerHTML = gpProducts.map(p => generateProductCardHtml(p)).join('');
@@ -453,6 +455,10 @@ function renderDynamicProducts(products) {
     ecoGrid.innerHTML = ecoProducts.map(p => generateProductCardHtml(p)).join('');
   }
 
+  if (molGrid && molProducts.length > 0) {
+    molGrid.innerHTML = molProducts.map(p => generateProductCardHtml(p)).join('');
+  }
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
@@ -460,7 +466,16 @@ function generateProductCardHtml(p) {
   const specs = p.specs || {};
   const b1 = specs.bullet1 ? `<span><i data-lucide="check-circle" class="icon-xs"></i> ${escapeHtmlForAttr(specs.bullet1)}</span>` : '';
   const b2 = specs.bullet2 ? `<span><i data-lucide="check-circle" class="icon-xs"></i> ${escapeHtmlForAttr(specs.bullet2)}</span>` : '';
-  const badgeStyle = p.brand === 'ecopro' ? 'style="background:#0284c7;"' : '';
+  
+  let badgeStyle = '';
+  let defaultBadge = '🇬🇧 GreenPrima';
+  if (p.brand === 'ecopro') {
+    badgeStyle = 'style="background:#0284c7;"';
+    defaultBadge = '🇨🇳 Ecopro';
+  } else if (p.brand === 'molinar') {
+    badgeStyle = 'style="background:linear-gradient(135deg, #0284c7, #0f766e);"';
+    defaultBadge = '🌐 Molinar • Smart IoT';
+  }
   
   const modalDesc = p.fullModalDesc || p.description || '';
   const modalArgs = [
@@ -475,7 +490,7 @@ function generateProductCardHtml(p) {
   return `
     <div class="product-card" data-category="${p.category || 'all'}">
       <div class="product-img-wrap">
-        <span class="product-category-badge" ${badgeStyle}>${p.badge || (p.brand === 'greenprima' ? '🇬🇧 GreenPrima' : '🇨🇳 Ecopro')}</span>
+        <span class="product-category-badge" ${badgeStyle}>${p.badge || defaultBadge}</span>
         <img src="${p.image}" alt="${escapeHtmlForAttr(p.name)}" class="product-img" onerror="this.src='images/prod-mag-flowmeter-unit.png'">
       </div>
       <div class="product-body">

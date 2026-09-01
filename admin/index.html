@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin CMS Dashboard | PT Panca Lingga Perkasa</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/logo-panca-lingga-perkasa.png">
+  
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       LOGIN VIEW
+       ========================================================================== -->
+  <div id="loginSection" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="../images/logo-panca-lingga-perkasa.png" alt="Logo PT Panca Lingga Perkasa" class="login-logo">
+        <h1 class="login-title">Admin CMS Portal</h1>
+        <p class="login-desc">Panel Pengelolaan Konten & Data PT Panca Lingga Perkasa</p>
+      </div>
+
+      <div class="login-hint">
+        <strong>💡 Kredensial Default:</strong><br>
+        Email: <code>admin@pancalingga.com</code><br>
+        Password: <code>adminplp2026</code>
+      </div>
+
+      <form id="loginForm" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Administrator</label>
+          <input type="email" id="loginEmail" class="form-input" required placeholder="admin@pancalingga.com" value="admin@pancalingga.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-input" required placeholder="••••••••" value="adminplp2026">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">
+          <i data-lucide="log-in" class="icon-sm"></i>
+          <span>Masuk ke Dashboard</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       AUTHENTICATED ADMIN APP
+       ========================================================================== -->
+  <div id="adminApp" class="admin-app" style="display: none;">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="../images/logo-panca-lingga-perkasa.png" alt="Logo" class="sidebar-logo">
+        <div>
+          <div class="sidebar-brand-name">PANCA LINGGA</div>
+          <div class="sidebar-brand-sub">CMS ADMIN PANEL</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <span class="nav-section-label">Menu Utama</span>
+        <button class="sidebar-btn active" onclick="switchNav('overview')">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Ringkasan (Overview)</span>
+        </button>
+
+        <span class="nav-section-label">Manajemen Konten</span>
+        <button class="sidebar-btn" onclick="switchNav('products')">
+          <i data-lucide="box"></i>
+          <span>Katalog Produk</span>
+        </button>
+        <button class="sidebar-btn" onclick="switchNav('projects')">
+          <i data-lucide="hard-hat"></i>
+          <span>Portofolio Proyek</span>
+        </button>
+        <button class="sidebar-btn" onclick="switchNav('services')">
+          <i data-lucide="wrench"></i>
+          <span>Layanan & Keahlian</span>
+        </button>
+
+        <span class="nav-section-label">Komunikasi & Leads</span>
+        <button class="sidebar-btn" onclick="switchNav('messages')">
+          <i data-lucide="inbox"></i>
+          <span>Kotak Masuk Form</span>
+          <span class="badge-count" id="sidebarMsgBadge" style="display:none;">0</span>
+        </button>
+
+        <span class="nav-section-label">Konfigurasi</span>
+        <button class="sidebar-btn" onclick="switchNav('settings')">
+          <i data-lucide="settings"></i>
+          <span>Profil & Kontak Web</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-outline btn-sm" onclick="openPasswordModal()" style="color:#cbd5e1; border-color:var(--primary-border);">
+          <i data-lucide="key" class="icon-xs"></i>
+          <span>Ubah Password</span>
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="handleLogout()">
+          <i data-lucide="log-out" class="icon-xs"></i>
+          <span>Keluar (Logout)</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-nav-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
+            <i data-lucide="menu"></i>
+          </button>
+          <h2 class="page-title" id="pageTitle">Ringkasan Dashboard</h2>
+        </div>
+
+        <div class="header-right">
+          <a href="../index.html" target="_blank" class="view-site-link">
+            <i data-lucide="external-link" class="icon-xs"></i>
+            <span>Buka Website Utama</span>
+          </a>
+
+          <div class="user-profile-badge">
+            <div class="avatar-circle">PLP</div>
+            <div class="user-details">
+              <span class="user-name" id="userDisplayName">Administrator</span>
+              <span class="user-role">Super Admin</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Viewport -->
+      <main class="content-body">
+        
+        <!-- ==================================================================
+             PANE 1: OVERVIEW DASHBOARD
+             ================================================================== -->
+        <section id="pane-overview" class="admin-pane active">
+          <!-- Summary Metrics Cards -->
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-icon amber"><i data-lucide="box"></i></div>
+              <div>
+                <div class="stat-val" id="statProducts">0</div>
+                <div class="stat-lbl">Total Produk Instrumen</div>
+              </div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-icon emerald"><i data-lucide="hard-hat"></i></div>
+              <div>
+                <div class="stat-val" id="statProjects">0</div>
+                <div class="stat-lbl">Portofolio Proyek</div>
+              </div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-icon blue"><i data-lucide="wrench"></i></div>
+              <div>
+                <div class="stat-val" id="statServices">0</div>
+                <div class="stat-lbl">Layanan Utama</div>
+              </div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-icon rose"><i data-lucide="mail"></i></div>
+              <div>
+                <div class="stat-val" id="statMessages">0</div>
+                <div class="stat-lbl">Pesan Masuk (<span id="statUnreadMsg">0</span> Baru)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Banner -->
+          <div class="section-actions-bar" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #ffffff;">
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 0.25rem;">Selamat Datang di Admin Panel PT Panca Lingga Perkasa</h3>
+              <p style="font-size: 0.85rem; color: #94a3b8;">Kelola katalog alat ukur GreenPrima & Shanghai Ecopro, portofolio proyek BUMN, dan tanggapi konsultasi klien secara real-time.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-primary btn-sm" onclick="openProductModal()">
+                <i data-lucide="plus"></i> Tambah Produk Baru
+              </button>
+              <button class="btn btn-outline btn-sm" style="color:#ffffff; border-color:#475569;" onclick="openProjectModal()">
+                <i data-lucide="plus"></i> Tambah Proyek
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Inquiries Preview Table -->
+          <div class="table-card" style="margin-top: 1.5rem;">
+            <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="font-size: 1rem; font-weight: 700;">📥 Pesan Konsultasi Masuk Terbaru</h3>
+              <button class="btn btn-outline btn-sm" onclick="switchNav('messages')">Lihat Semua Pesan</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Waktu</th>
+                    <th>Nama & Instansi</th>
+                    <th>WhatsApp / Telp</th>
+                    <th>Kategori Layanan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="overviewRecentMsgTable">
+                  <tr><td colspan="6" style="text-align:center;">Memuat pesan masuk...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             PANE 2: PRODUCTS CRUD
+             ================================================================== -->
+        <section id="pane-products" class="admin-pane">
+          <div class="section-actions-bar">
+            <div class="search-filter-group">
+              <div class="search-input-wrap">
+                <i data-lucide="search"></i>
+                <input type="text" id="prodSearchInput" placeholder="Cari nama produk, spesifikasi, atau model..." oninput="filterProducts()">
+              </div>
+              <select id="prodBrandFilter" class="filter-select" onchange="filterProducts()">
+                <option value="all">Semua Brand (GreenPrima & Ecopro)</option>
+                <option value="greenprima">🇬🇧 GreenPrima Instruments (UK)</option>
+                <option value="ecopro">🇨🇳 Shanghai Ecopro Environmental</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="openProductModal()">
+              <i data-lucide="plus"></i>
+              <span>Tambah Produk Baru</span>
+            </button>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">Foto</th>
+                    <th>Nama Produk</th>
+                    <th>Brand & Kategori</th>
+                    <th>Spesifikasi Singkat</th>
+                    <th>Urutan</th>
+                    <th style="text-align: right;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                  <tr><td colspan="6" style="text-align:center;">Memuat data produk...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             PANE 3: PROJECTS / PORTFOLIO CRUD
+             ================================================================== -->
+        <section id="pane-projects" class="admin-pane">
+          <div class="section-actions-bar">
+            <div class="search-filter-group">
+              <div class="search-input-wrap">
+                <i data-lucide="search"></i>
+                <input type="text" id="projSearchInput" placeholder="Cari judul proyek, klien BUMN, atau lokasi..." oninput="filterProjects()">
+              </div>
+              <select id="projGroupFilter" class="filter-select" onchange="filterProjects()">
+                <option value="all">Semua Kategori Proyek</option>
+                <option value="airport">Bandara & Smart Water (Angkasa Pura)</option>
+                <option value="industrial">Industri & Pabrik (Adhi Karya / Pusri)</option>
+                <option value="infra">Konstruksi & Jembatan (Bukaka / Musi)</option>
+                <option value="pdam">PDAM & Instrumentasi Outdoor</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="openProjectModal()">
+              <i data-lucide="plus"></i>
+              <span>Tambah Portofolio Proyek</span>
+            </button>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">Dokumentasi</th>
+                    <th>Judul Proyek</th>
+                    <th>Mitra / Klien</th>
+                    <th>Lokasi & Tag</th>
+                    <th>Highlight Keunggulan</th>
+                    <th style="text-align: right;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="projectsTableBody">
+                  <tr><td colspan="6" style="text-align:center;">Memuat data portofolio...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             PANE 4: SERVICES CRUD
+             ================================================================== -->
+        <section id="pane-services" class="admin-pane">
+          <div class="section-actions-bar">
+            <div>
+              <h3 style="font-size: 1.1rem; font-weight:700;">4 Pilar Layanan & Kapabilitas Rekayasa</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Kelola deskripsi layanan MEP, IoT Instrumentasi, Fabrikasi Baja, dan Alat Berat.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openServiceModal()">
+              <i data-lucide="plus"></i>
+              <span>Tambah Layanan</span>
+            </button>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Ikon</th>
+                    <th>Nama Layanan</th>
+                    <th>Deskripsi Singkat</th>
+                    <th>Daftar Fitur</th>
+                    <th>Status Favorit</th>
+                    <th style="text-align: right;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="servicesTableBody">
+                  <tr><td colspan="6" style="text-align:center;">Memuat layanan...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             PANE 5: CONTACT MESSAGES / INBOX
+             ================================================================== -->
+        <section id="pane-messages" class="admin-pane">
+          <div class="section-actions-bar">
+            <div class="search-filter-group">
+              <div class="search-input-wrap">
+                <i data-lucide="search"></i>
+                <input type="text" id="msgSearchInput" placeholder="Cari nama, nomor WhatsApp, atau isi pesan..." oninput="filterMessages()">
+              </div>
+              <select id="msgStatusFilter" class="filter-select" onchange="filterMessages()">
+                <option value="all">Semua Status Pesan</option>
+                <option value="unread">Belum Dibaca (Unread)</option>
+                <option value="read">Sudah Ditindaklanjuti (Read)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Waktu Masuk</th>
+                    <th>Pengirim & Instansi</th>
+                    <th>Kontak WhatsApp</th>
+                    <th>Kategori Bidang</th>
+                    <th>Ringkasan Kebutuhan</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Aksi Cepat</th>
+                  </tr>
+                </thead>
+                <tbody id="messagesTableBody">
+                  <tr><td colspan="7" style="text-align:center;">Memuat pesan masuk...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             PANE 6: SETTINGS & COMPANY PROFILE
+             ================================================================== -->
+        <section id="pane-settings" class="admin-pane">
+          <div class="table-card" style="padding: 2rem; max-width: 860px;">
+            <div style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+              <h3 style="font-size: 1.25rem; font-weight: 700;">⚙️ Pengaturan Profil & Kontak Perusahaan</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Informasi ini terhubung langsung ke footer, header bar, dan tombol WhatsApp di seluruh halaman website.</p>
+            </div>
+
+            <form id="settingsForm" onsubmit="handleSaveSettings(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="setCompanyName">Nama Perusahaan</label>
+                  <input type="text" id="setCompanyName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="setSinceYear">Tahun Berdiri</label>
+                  <input type="number" id="setSinceYear" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="setTagline">Headline / Tagline Utama</label>
+                <input type="text" id="setTagline" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="setMotto">Filosofi / Motto Perusahaan</label>
+                <input type="text" id="setMotto" class="form-input" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="setWhatsApp">Nomor WhatsApp Resmi (Awali dengan 62)</label>
+                  <input type="text" id="setWhatsApp" class="form-input" required placeholder="6281390506150">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="setEmail">Email Korespondensi</label>
+                  <input type="email" id="setEmail" class="form-input" required placeholder="pancalinggaperkasa@gmail.com">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="setAddressTangerang">Alamat Kantor Pusat Operasional (Tangerang)</label>
+                <textarea id="setAddressTangerang" class="form-textarea" rows="2" required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="setAddressCirebon">Alamat Workshop & Pool Fabrikasi (Cirebon)</label>
+                <textarea id="setAddressCirebon" class="form-textarea" rows="2" required></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="setOperatingHours">Jam Operasional Kantor</label>
+                  <input type="text" id="setOperatingHours" class="form-input" required placeholder="Senin - Sabtu: 08.00 - 17.00 WIB">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="setMetaDescription">Meta SEO Description Website</label>
+                <textarea id="setMetaDescription" class="form-textarea" rows="2" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">
+                <i data-lucide="save"></i>
+                <span>Simpan Perubahan Pengaturan</span>
+              </button>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 1: PRODUCT EDITOR
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalProduct">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modalProductTitle">Tambah Produk Baru</h3>
+        <button class="modal-close-btn" onclick="closeModal('modalProduct')"><i data-lucide="x"></i></button>
+      </div>
+      <form id="productForm" onsubmit="handleProductSubmit(event)">
+        <div class="modal-content-scroll">
+          <input type="hidden" id="prodId">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prodBrand">Brand Principal *</label>
+              <select id="prodBrand" class="form-select" required onchange="handleBrandChange()">
+                <option value="greenprima">🇬🇧 GreenPrima Instruments (UK)</option>
+                <option value="ecopro">🇨🇳 Shanghai Ecopro Environmental</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prodCategory">Kategori / Filter Tag *</label>
+              <input type="text" id="prodCategory" class="form-input" required placeholder="Contoh: gp-flow / gp-water / eco-sep">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prodName">Nama Produk / Model *</label>
+            <input type="text" id="prodName" class="form-input" required placeholder="Contoh: GreenPrima Electromagnetic Flow Meter">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prodBadge">Badge Label</label>
+            <input type="text" id="prodBadge" class="form-input" placeholder="Contoh: 🇬🇧 GreenPrima • Flowmeter">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prodDesc">Deskripsi Ringkas (Tampil di Kartu) *</label>
+            <textarea id="prodDesc" class="form-textarea" rows="2" required placeholder="Deskripsi ringkas produk untuk tampilan kartu katalog..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prodModalDesc">Deskripsi Lengkap (Tampil di Modal Popup)</label>
+            <textarea id="prodModalDesc" class="form-textarea" rows="3" placeholder="Penjelasan teknis dan fungsi mendalam untuk popup spesifikasi..."></textarea>
+          </div>
+
+          <!-- Image Upload / Path -->
+          <div class="form-group">
+            <label class="form-label">Foto / Gambar Produk</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="prodImage" class="form-input" placeholder="images/prod-mag-flowmeter-unit.png">
+              <label class="btn btn-outline btn-sm" style="cursor:pointer; white-space:nowrap;">
+                <i data-lucide="upload"></i> Upload File
+                <input type="file" id="prodFileInput" accept="image/*" style="display:none;" onchange="uploadImage(this, 'prodImage', 'prodImagePreview')">
+              </label>
+            </div>
+            <div class="image-preview-box">
+              <img id="prodImagePreview" src="../images/prod-mag-flowmeter-unit.png" alt="Preview" class="image-preview-thumb">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Preview gambar unit yang akan ditampilkan.</span>
+            </div>
+          </div>
+
+          <!-- Technical Specs -->
+          <h4 style="font-size: 0.95rem; font-weight:700; margin: 1.25rem 0 0.75rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+            🔬 Spesifikasi Teknis:
+          </h4>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prodSpecMethod">Metode Pengukuran</label>
+              <input type="text" id="prodSpecMethod" class="form-input" placeholder="Contoh: Elektromagnetik (Faraday Law)">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prodSpecRange">Rentang Ukur / Diameter</label>
+              <input type="text" id="prodSpecRange" class="form-input" placeholder="Contoh: DN10 - DN2000">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prodSpecAccuracy">Akurasi Pengukuran</label>
+              <input type="text" id="prodSpecAccuracy" class="form-input" placeholder="Contoh: ±0.5% (Standar)">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prodSpecOutput">Output & Komunikasi</label>
+              <input type="text" id="prodSpecOutput" class="form-input" placeholder="Contoh: 4-20mA, Modbus RS485">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="prodSpecBullet1">Poin Keunggulan 1</label>
+              <input type="text" id="prodSpecBullet1" class="form-input" placeholder="Contoh: Output 4-20mA / Modbus RS485">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="prodSpecBullet2">Poin Keunggulan 2</label>
+              <input type="text" id="prodSpecBullet2" class="form-input" placeholder="Contoh: Proteksi IP68 Rendam Air">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalProduct')">Batal</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Simpan Produk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: PROJECT / PORTFOLIO EDITOR
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalProject">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modalProjectTitle">Tambah Portofolio Proyek</h3>
+        <button class="modal-close-btn" onclick="closeModal('modalProject')"><i data-lucide="x"></i></button>
+      </div>
+      <form id="projectForm" onsubmit="handleProjectSubmit(event)">
+        <div class="modal-content-scroll">
+          <input type="hidden" id="projId">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="projGroup">Kategori Tab Proyek *</label>
+              <select id="projGroup" class="form-select" required>
+                <option value="airport">Bandara & Smart Water</option>
+                <option value="industrial">Industri & Pabrik (Adhi Karya)</option>
+                <option value="infra">Konstruksi & Jembatan (Bukaka)</option>
+                <option value="pdam">PDAM & Instrumentasi</option>
+                <option value="industrial infra">Industri & Infrastruktur</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projClient">Nama Klien / Mitra BUMN *</label>
+              <input type="text" id="projClient" class="form-input" required placeholder="Contoh: PT Angkasa Pura II">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="projTitle">Judul Pekerjaan / Proyek *</label>
+            <input type="text" id="projTitle" class="form-input" required placeholder="Contoh: Digital Water Monitoring System Terminal 1 & 2">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="projLocation">Lokasi Proyek *</label>
+              <input type="text" id="projLocation" class="form-input" required placeholder="Contoh: Bandara Int. Soekarno-Hatta">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="projTag">Tag Bidang Keahlian *</label>
+              <input type="text" id="projTag" class="form-input" required placeholder="Contoh: MEP & Real-Time IoT">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="projStory">Cerita & Ruang Lingkup Dedikasi Lapangan *</label>
+            <textarea id="projStory" class="form-textarea" rows="3" required placeholder="Jelaskan tantangan lapangan, eksekusi teknis tim PLP, dan hasil nyata bagi mitra..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="projHighlight">Pill Highlight Keberhasilan</label>
+            <input type="text" id="projHighlight" class="form-input" placeholder="Contoh: Zero Interruption pada Operasional Penerbangan">
+          </div>
+
+          <!-- Image Upload / Path -->
+          <div class="form-group">
+            <label class="form-label">Foto Dokumentasi Lapangan</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="projImage" class="form-input" placeholder="images/proyek-soetta-dashboard.png">
+              <label class="btn btn-outline btn-sm" style="cursor:pointer; white-space:nowrap;">
+                <i data-lucide="upload"></i> Upload Foto
+                <input type="file" id="projFileInput" accept="image/*" style="display:none;" onchange="uploadImage(this, 'projImage', 'projImagePreview')">
+              </label>
+            </div>
+            <div class="image-preview-box">
+              <img id="projImagePreview" src="../images/proyek-soetta-dashboard.png" alt="Preview" class="image-preview-thumb">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Preview foto dokumentasi proyek.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalProject')">Batal</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Simpan Proyek</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: SERVICE EDITOR
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalService">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modalServiceTitle">Tambah Layanan</h3>
+        <button class="modal-close-btn" onclick="closeModal('modalService')"><i data-lucide="x"></i></button>
+      </div>
+      <form id="serviceForm" onsubmit="handleServiceSubmit(event)">
+        <div class="modal-content-scroll">
+          <input type="hidden" id="srvId">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="srvTitle">Nama Layanan *</label>
+              <input type="text" id="srvTitle" class="form-input" required placeholder="Contoh: Mechanical, Electrical & Plumbing (MEP)">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="srvIcon">Ikon Lucide *</label>
+              <select id="srvIcon" class="form-select">
+                <option value="cog">cog (MEP/Mesin)</option>
+                <option value="cpu">cpu (Otomasi/IoT)</option>
+                <option value="building">building (Konstruksi/Gedung)</option>
+                <option value="truck">truck (Alat Berat)</option>
+                <option value="wrench">wrench (Rekayasa)</option>
+                <option value="activity">activity (Monitoring)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="srvDesc">Deskripsi Layanan *</label>
+            <textarea id="srvDesc" class="form-textarea" rows="3" required placeholder="Jelaskan ruang lingkup layanan..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="srvFeatures">Fitur / Sub-Keahlian (Pisahkan dengan baris baru)</label>
+            <textarea id="srvFeatures" class="form-textarea" rows="3" placeholder="Pemasangan Pipa & Pompa Tekanan Tinggi&#10;Instalasi Hydrant & Plumbing Industri&#10;Panel Kelistrikan MCC & Distribusi"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="srvImage">Gambar Thumbnail Preview</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="srvImage" class="form-input" placeholder="images/proyek-conveyor-pusri.png">
+              <label class="btn btn-outline btn-sm" style="cursor:pointer; white-space:nowrap;">
+                <i data-lucide="upload"></i> Upload
+                <input type="file" accept="image/*" style="display:none;" onchange="uploadImage(this, 'srvImage')">
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="srvFeatured" style="width:18px; height:18px;">
+            <label for="srvFeatured" style="font-size:0.875rem; font-weight:600; cursor:pointer;">Jadikan Solusi Favorit (Badge Khusus)</label>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalService')">Batal</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Simpan Layanan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: VIEW MESSAGE / INBOX DETAIL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalViewMessage">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title">Rincian Pesan Konsultasi Masuk</h3>
+        <button class="modal-close-btn" onclick="closeModal('modalViewMessage')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-content-scroll">
+        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+            <div>
+              <h4 id="viewMsgName" style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">-</h4>
+              <p id="viewMsgCompany" style="font-size: 0.85rem; color: var(--text-muted);">-</p>
+            </div>
+            <span id="viewMsgTime" style="font-size: 0.75rem; color: var(--text-light);">-</span>
+          </div>
+          <div style="display: flex; gap: 1rem; font-size: 0.825rem;">
+            <div><strong>WhatsApp:</strong> <span id="viewMsgPhone">-</span></div>
+            <div><strong>Bidang:</strong> <span id="viewMsgService">-</span></div>
+          </div>
+        </div>
+
+        <h5 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">Isi Pesan / Rincian Kebutuhan:</h5>
+        <div id="viewMsgContent" style="padding: 1rem; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap;">-</div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalViewMessage')">Tutup</button>
+        <a href="#" id="viewMsgWaLink" target="_blank" class="btn btn-primary" style="background:#25D366; color:#ffffff;">
+          <i data-lucide="message-circle"></i> Balas ke WhatsApp Pengirim
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5: CHANGE PASSWORD
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalPassword">
+    <div class="modal-box" style="max-width: 440px;">
+      <div class="modal-head">
+        <h3 class="modal-title">Ubah Password Admin</h3>
+        <button class="modal-close-btn" onclick="closeModal('modalPassword')"><i data-lucide="x"></i></button>
+      </div>
+      <form id="passwordForm" onsubmit="handleChangePassword(event)">
+        <div class="modal-content-scroll">
+          <div class="form-group">
+            <label class="form-label" for="currPass">Password Saat Ini *</label>
+            <input type="password" id="currPass" class="form-input" required placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="newPass">Password Baru (Min. 6 Karakter) *</label>
+            <input type="password" id="newPass" class="form-input" required minlength="6" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="confirmPass">Konfirmasi Password Baru *</label>
+            <input type="password" id="confirmPass" class="form-input" required minlength="6" placeholder="••••••••">
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalPassword')">Batal</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="key"></i> Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Admin JavaScript Logic -->
+  <script src="admin.js"></script>
+</body>
+</html>

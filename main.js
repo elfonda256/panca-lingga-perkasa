@@ -181,9 +181,9 @@ window.addEventListener('keydown', (e) => {
 });
 
 /**
- * Contact Form to WhatsApp Submit Handler
+ * Contact Form to WhatsApp & Database Integration
  */
-function handleFormSubmit(event) {
+async function handleFormSubmit(event) {
   event.preventDefault();
   
   const name = document.getElementById('name').value;
@@ -191,6 +191,17 @@ function handleFormSubmit(event) {
   const phone = document.getElementById('phone').value;
   const service = document.getElementById('service').value;
   const message = document.getElementById('message').value;
+
+  // Asynchronously save to backend database if API is running
+  try {
+    fetch('/api/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, company, phone, service, message })
+    }).catch(e => console.log('Backend offline or static mode:', e));
+  } catch (e) {
+    // Ignore error
+  }
 
   const text = `*Halo PT Panca Lingga Perkasa, Ada Pesan Masuk dari Website:*\n\n` +
                `*Nama:* ${name}\n` +
@@ -400,11 +411,135 @@ function initHeroTilt() {
   });
 }
 
+/**
+ * 11. Dynamic API Content Hydration (Synchronize with CMS Backend)
+ */
+async function initLiveDynamicData() {
+  try {
+    // 1. Fetch Products
+    const prodRes = await fetch('/api/products');
+    if (prodRes.ok) {
+      const prodData = await prodRes.json();
+      if (prodData.success && Array.isArray(prodData.products) && prodData.products.length > 0) {
+        renderDynamicProducts(prodData.products);
+      }
+    }
+
+    // 2. Fetch Projects
+    const projRes = await fetch('/api/projects');
+    if (projRes.ok) {
+      const projData = await projRes.json();
+      if (projData.success && Array.isArray(projData.projects) && projData.projects.length > 0) {
+        renderDynamicProjects(projData.projects);
+      }
+    }
+  } catch (e) {
+    // Graceful fallback to static DOM if backend is not running
+  }
+}
+
+function renderDynamicProducts(products) {
+  const gpGrid = document.getElementById('greenprimaGrid');
+  const ecoGrid = document.getElementById('ecoproGrid');
+
+  const gpProducts = products.filter(p => p.brand === 'greenprima');
+  const ecoProducts = products.filter(p => p.brand === 'ecopro');
+
+  if (gpGrid && gpProducts.length > 0) {
+    gpGrid.innerHTML = gpProducts.map(p => generateProductCardHtml(p)).join('');
+  }
+
+  if (ecoGrid && ecoProducts.length > 0) {
+    ecoGrid.innerHTML = ecoProducts.map(p => generateProductCardHtml(p)).join('');
+  }
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function generateProductCardHtml(p) {
+  const specs = p.specs || {};
+  const b1 = specs.bullet1 ? `<span><i data-lucide="check-circle" class="icon-xs"></i> ${escapeHtmlForAttr(specs.bullet1)}</span>` : '';
+  const b2 = specs.bullet2 ? `<span><i data-lucide="check-circle" class="icon-xs"></i> ${escapeHtmlForAttr(specs.bullet2)}</span>` : '';
+  const badgeStyle = p.brand === 'ecopro' ? 'style="background:#0284c7;"' : '';
+  
+  const modalDesc = p.fullModalDesc || p.description || '';
+  const modalArgs = [
+    p.name || '',
+    modalDesc,
+    specs.method || '-',
+    specs.range || '-',
+    specs.accuracy || '-',
+    specs.output || '-'
+  ].map(str => `'${escapeHtmlForAttr(str)}'`).join(', ');
+
+  return `
+    <div class="product-card" data-category="${p.category || 'all'}">
+      <div class="product-img-wrap">
+        <span class="product-category-badge" ${badgeStyle}>${p.badge || (p.brand === 'greenprima' ? '🇬🇧 GreenPrima' : '🇨🇳 Ecopro')}</span>
+        <img src="${p.image}" alt="${escapeHtmlForAttr(p.name)}" class="product-img" onerror="this.src='images/prod-mag-flowmeter-unit.png'">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">${escapeHtmlForAttr(p.name)}</h3>
+        <p class="product-desc">${escapeHtmlForAttr(p.description)}</p>
+        <div class="product-specs">
+          ${b1}
+          ${b2}
+        </div>
+        <div class="product-footer">
+          <button class="btn btn-outline btn-block" onclick="openProductModal(${modalArgs})">
+            <span>Lihat Detail Spesifikasi</span>
+            <i data-lucide="external-link" class="icon-xs"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderDynamicProjects(projects) {
+  const portGrid = document.getElementById('portfolioGrid');
+  if (!portGrid || projects.length === 0) return;
+
+  portGrid.innerHTML = projects.map(p => `
+    <div class="portfolio-card" data-group="${p.group || 'all'}">
+      <div class="portfolio-media">
+        <img src="${p.image}" alt="${escapeHtmlForAttr(p.title)}" class="portfolio-img" onerror="this.src='images/proyek-soetta-dashboard.png'">
+        <span class="port-client-badge">${escapeHtmlForAttr(p.client)}</span>
+      </div>
+      <div class="portfolio-body">
+        <div class="portfolio-meta">
+          <span><i data-lucide="map-pin" class="icon-xs"></i> ${escapeHtmlForAttr(p.location)}</span>
+          <span><i data-lucide="tag" class="icon-xs"></i> ${escapeHtmlForAttr(p.tag)}</span>
+        </div>
+        <h3 class="port-title">${escapeHtmlForAttr(p.title)}</h3>
+        <p class="port-story">${escapeHtmlForAttr(p.story)}</p>
+        <div class="port-highlight-pill">
+          <i data-lucide="check-circle" class="icon-xs"></i> ${escapeHtmlForAttr(p.highlight || 'Presisi Mutu')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function escapeHtmlForAttr(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // Run all animations once DOM is fully ready
 document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initNumberCounters();
   initBackToTop();
   initHeroTilt();
+  initLiveDynamicData();
 });
+
 

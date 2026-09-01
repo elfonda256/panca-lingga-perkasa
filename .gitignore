@@ -2,3 +2,4 @@
 *.zip
 *.ps1
 .agents/
+node_modules/

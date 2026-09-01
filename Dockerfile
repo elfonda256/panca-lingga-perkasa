@@ -1,11 +1,23 @@
-# Production Nginx Image for PT Panca Lingga Perkasa
-FROM nginx:alpine
+# Production Node.js Image for PT Panca Lingga Perkasa Backend & CMS
+FROM node:20-alpine
 
-# Copy static assets to default Nginx html directory
-COPY . /usr/share/nginx/html
+WORKDIR /app
 
-# Expose port 80
+# Copy dependency definitions
+COPY package*.json ./
+
+# Install dependencies (including production packages)
+RUN npm install --production
+
+# Copy all project files & assets
+COPY . .
+
+# Environment variables
+ENV PORT=80
+ENV NODE_ENV=production
+
+# Expose HTTP port
 EXPOSE 80
 
-# Run nginx in foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Start server
+CMD ["node", "server.js"]
